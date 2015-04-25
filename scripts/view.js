@@ -1,21 +1,26 @@
 var ListView = Backbone.View.extend({
+	el: $('body'),
 
-	render: function() {
-		var items = this.model.get('items');
+	events: {
+		'click button#add': 'addItem'
+	},
 
-		_.each(items, function(item) {
-			var itemView = new ItemView({ model: item });
-			this.$el.append(9 itemView.render().el);
-		}, this);
+	initialize: function() {
+		_.bindAll(this, 'render', 'addItem');
+
+		this.counter = 0;
+		this.render();
+	},
+
+	render: function(){
+		$(this.el).append('<button id="add">Add list item</button>');
+		$(this.el).append('<ul></ul>');
+	},
+
+	addItem: function(){
+		this.counter++;
+		$('ul', this.el).append('<li>hello world'+this.counter+'</li>');
 	}
 });
 
-var ItemView = Backbone.View.extend({
-	events: {},
-
-	render: function() {
-		this.$el.html(this.template(this.model.attributes));
-		return this;
-	}
-});
-
+var listView = new ListView();
